@@ -1,33 +1,51 @@
 from tkinter import *
 import random
 
-random_1, random_2 = random.randrange(1, 10), random.randint(1, 10)
 
-symbols = ["+", "-"]
+class quadratics:
+    def __init__(self):
+        self.incorrect = {
+            "Question 1": random.randrange(1, 9),
+            "Question 2": random.randrange(1, 9),
+            "Question 3": random.randrange(1, 9),
+        }
 
-symbol_random_1, symbol_random_2 = random.choice(symbols), random.choice(symbols)
+        self.random_1, self.random_2 = random.randrange(1, 10), random.randint(1, 6)
+        self.symbols = ["+", "-"]
+        self.symbol_random_1, self.symbol_random_2 = random.choice(self.symbols), random.choice(self.symbols)
 
-x_coefficient_1 = ['', 2, 3]
-coefficient_random_1 = random.randint(1, len(x_coefficient_1) - 1)
+        self.x_coefficient_1 = ['', 2, 3]
+        self.coefficient_random_1 = random.randint(1, len(self.x_coefficient_1) - 1)
 
-x_coefficient_2 = ['', 2, 3]
-coefficient_random_2 = random.randint(0, len(x_coefficient_1) - 1)
+        self.x_coefficient_2 = ['', 2, 3]
+        self.coefficient_random_2 = random.randint(0, len(self.x_coefficient_1) - 1)
 
-gather_quadratics = [random_1, random_2, symbols,
-                     symbol_random_1, symbol_random_2,
-                     x_coefficient_1, coefficient_random_1,
-                     x_coefficient_2, coefficient_random_2]
+        self.correct = "{}/{}".format(self.random_1, self.x_coefficient_1[self.coefficient_random_1])
 
-correct = "{}/{}".format(random_1, x_coefficient_1[coefficient_random_1])
-incorrect = {}
-for i in range(4):
-    incorrect[i] = "{}/{}".format(random_1, x_coefficient_1[coefficient_random_1])
 
-print(incorrect)
+inter_variable = quadratics()
+
+
+def randomise_questions():
+    list_check_random = []
+    for x in inter_variable.incorrect.values():
+        list_check_random.append(x)
+    filtered_list = set(list_check_random)
+
+    while len(filtered_list) != 3:
+        filtered_list.add(random.randrange(1, 9))
+    
+
+gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
+                     inter_variable.symbol_random_1, inter_variable.symbol_random_2,
+                     inter_variable.x_coefficient_1, inter_variable.coefficient_random_1,
+                     inter_variable.x_coefficient_2, inter_variable.coefficient_random_2]
 
 
 class algebra:
     def __init__(self, parameter):
+        self.parameter = parameter
+
         self.option_value = IntVar()
 
         self.start_frame = Frame()
@@ -37,11 +55,13 @@ class algebra:
         self.main_frame.grid(row=0)
 
         self.question_label = Label(self.main_frame, padx=10, pady=10,
-                                    text="({}x{}{})({}x{}{})".format(x_coefficient_1[coefficient_random_1],
-                                                                     symbol_random_1,
-                                                                     random_1, x_coefficient_2[coefficient_random_2],
-                                                                     symbol_random_2,
-                                                                     random_2), font="Arial 32 bold")
+                                    text="({}x{}{})({}x{}{})".format(
+                                        inter_variable.x_coefficient_1[inter_variable.coefficient_random_1],
+                                        inter_variable.symbol_random_1,
+                                        inter_variable.random_1,
+                                        inter_variable.x_coefficient_2[inter_variable.coefficient_random_2],
+                                        inter_variable.symbol_random_2,
+                                        inter_variable.random_2), font="Arial 32 bold")
         self.question_label.grid(row=0)
 
         self.option_1 = Radiobutton(self.main_frame, text="Option 1",
@@ -65,10 +85,10 @@ class algebra:
         self.option_4.grid(row=4, pady=3, sticky=NSEW)
 
         self.submit_button = Button(self.main_frame, text="Submit",
-                                    command=lambda: self.check_answer(self.option_value.get()))
+                                    command=lambda: self.check_answer())
         self.submit_button.grid(row=5, pady=3, sticky=NSEW)
 
-    def check_answer(self, value):
+    def check_answer(self):
         self.start_frame.destroy()
 
 
