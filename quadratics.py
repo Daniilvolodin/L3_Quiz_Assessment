@@ -20,9 +20,16 @@ class quadratics:
         self.x_coefficient_2 = ['', 2, 3]
         self.coefficient_random_2 = random.randint(0, len(self.x_coefficient_1) - 1)
 
-        self.correct = "{}/{}".format(self.random_1, self.x_coefficient_1[self.coefficient_random_1])
+        self.correct_1 = self.random_1
+        self.correct_2 = self.random_2
 
 
+incorrect = [[], [], []]
+
+for x in range(3):
+    incorrect[x].append(random.randrange(1, 9))
+    incorrect[x].append(random.randrange(1, 9))
+print(incorrect)
 inter_variable = quadratics()
 
 
@@ -34,7 +41,12 @@ def randomise_questions():
 
     while len(filtered_list) != 3:
         filtered_list.add(random.randrange(1, 9))
-    
+    filtered_list.add(inter_variable.correct_1)
+    filtered_list.add(inter_variable.correct_2)
+    print(filtered_list)
+
+
+randomise_questions()
 
 gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
                      inter_variable.symbol_random_1, inter_variable.symbol_random_2,
@@ -96,3 +108,4 @@ root = Tk()
 root.geometry("500x500")
 app = algebra(root)
 root.mainloop()
+
