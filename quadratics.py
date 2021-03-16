@@ -2,14 +2,8 @@ from tkinter import *
 import random
 
 
-class quadratics:
+class regen:
     def __init__(self):
-        self.incorrect = {
-            "Question 1": random.randrange(1, 9),
-            "Question 2": random.randrange(1, 9),
-            "Question 3": random.randrange(1, 9),
-        }
-
         self.random_1, self.random_2 = random.randrange(1, 10), random.randint(1, 6)
         self.symbols = ["+", "-"]
         self.symbol_random_1, self.symbol_random_2 = random.choice(self.symbols), random.choice(self.symbols)
@@ -24,30 +18,45 @@ class quadratics:
         self.correct_2 = self.random_2
 
 
-incorrect = [[], [], []]
+class quadratics:
+    def __init__(self):
+        self.random_1, self.random_2 = random.randrange(1, 10), random.randint(1, 6)
+        self.symbols = ["+", "-"]
+        self.symbol_random_1, self.symbol_random_2 = random.choice(self.symbols), random.choice(self.symbols)
 
-for x in range(3):
-    incorrect[x].append(random.randrange(1, 9))
-    incorrect[x].append(random.randrange(1, 9))
-print(incorrect)
+        self.x_coefficient_1 = ['', 2, 3]
+        self.coefficient_random_1 = random.randint(1, len(self.x_coefficient_1) - 1)
+
+        self.x_coefficient_2 = ['', 2, 3]
+        self.coefficient_random_2 = random.randint(0, len(self.x_coefficient_1) - 1)
+
+        self.correct_1 = self.random_1
+        self.correct_2 = self.random_2
+
+
 inter_variable = quadratics()
 
+incorrect = [[], [], []]
+correct = [inter_variable.correct_1, inter_variable.correct_2]
 
-def randomise_questions():
-    list_check_random = []
-    for x in inter_variable.incorrect.values():
-        list_check_random.append(x)
-    filtered_list = set(list_check_random)
+for x in range(len(incorrect)):
+    incorrect[x].append(random.randrange(1, 9))
+    incorrect[x].append(random.randrange(1, 9))
 
-    while len(filtered_list) != 3:
-        filtered_list.add(random.randrange(1, 9))
-    filtered_list.add(inter_variable.correct_1)
-    filtered_list.add(inter_variable.correct_2)
-    print(filtered_list)
+incorrect_1 = sorted(incorrect[0], reverse=True)
+incorrect_2 = sorted(incorrect[1], reverse=True)
+incorrect_3 = sorted(incorrect[2], reverse=True)
+correct_4 = sorted(correct, reverse=True)
 
+answer_list = [incorrect_1, incorrect_2, incorrect_3, correct_4]
+if answer_list[0] == (answer_list[1], answer_list[2]):
+    print("There are dupes")
+if answer_list[1] == (answer_list[0], answer_list[2]):
+    print("There are dupes")
+if answer_list[2] == (answer_list[0], answer_list[1]):
+    print("There are dupes")
 
-randomise_questions()
-
+print(answer_list)  
 gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
                      inter_variable.symbol_random_1, inter_variable.symbol_random_2,
                      inter_variable.x_coefficient_1, inter_variable.coefficient_random_1,
@@ -108,4 +117,5 @@ root = Tk()
 root.geometry("500x500")
 app = algebra(root)
 root.mainloop()
+
 
