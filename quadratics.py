@@ -49,14 +49,8 @@ incorrect_3 = sorted(incorrect[2], reverse=True)
 correct_4 = sorted(correct, reverse=True)
 
 answer_list = [incorrect_1, incorrect_2, incorrect_3, correct_4]
-if answer_list[0] == (answer_list[1], answer_list[2]):
-    print("There are dupes")
-if answer_list[1] == (answer_list[0], answer_list[2]):
-    print("There are dupes")
-if answer_list[2] == (answer_list[0], answer_list[1]):
-    print("There are dupes")
 
-print(answer_list)  
+
 gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
                      inter_variable.symbol_random_1, inter_variable.symbol_random_2,
                      inter_variable.x_coefficient_1, inter_variable.coefficient_random_1,
