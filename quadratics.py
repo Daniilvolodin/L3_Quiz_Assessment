@@ -43,12 +43,15 @@ for x in range(len(incorrect)):
     incorrect[x].append(random.randrange(1, 9))
     incorrect[x].append(random.randrange(1, 9))
 
-incorrect_1 = sorted(incorrect[0], reverse=True)
-incorrect_2 = sorted(incorrect[1], reverse=True)
-incorrect_3 = sorted(incorrect[2], reverse=True)
-correct_4 = sorted(correct, reverse=True)
+incorrect_1 = tuple(sorted(incorrect[0], reverse=True))
+incorrect_2 = tuple(sorted(incorrect[1], reverse=True))
+incorrect_3 = tuple(sorted(incorrect[2], reverse=True))
+correct_4 = tuple(sorted(correct, reverse=True))
 
 answer_list = [incorrect_1, incorrect_2, incorrect_3, correct_4]
+if len(answer_list) == len(set(answer_list)):
+    print("There are no duplicates")
+    print(set(answer_list))
 
 
 gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
@@ -111,5 +114,6 @@ root = Tk()
 root.geometry("500x500")
 app = algebra(root)
 root.mainloop()
+
 
 
