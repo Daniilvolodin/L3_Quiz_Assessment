@@ -2,57 +2,33 @@ from tkinter import *
 import random
 
 
-class regen:
+class Quadratics_Entry:
     def __init__(self):
         self.random_1, self.random_2 = random.randrange(1, 10), random.randint(1, 6)
         self.symbols = ["+", "-"]
         self.symbol_random_1, self.symbol_random_2 = random.choice(self.symbols), random.choice(self.symbols)
 
-        self.x_coefficient_1 = ['', 2, 3]
+        self.remaining_symbol_1 = self.symbols.index(self.symbol_random_1)
+        self.counter_1 = self.symbols[self.remaining_symbol_1 - 1]
+
+        self.remaining_symbol_2 = self.symbols.index(self.symbol_random_2)
+        self.counter_2 = self.symbols[self.remaining_symbol_2 - 1]
+
+        self.x_coefficient_1 = [1, 2, 3]
         self.coefficient_random_1 = random.randint(1, len(self.x_coefficient_1) - 1)
 
-        self.x_coefficient_2 = ['', 2, 3]
+        self.x_coefficient_2 = [1, 2, 3]
         self.coefficient_random_2 = random.randint(0, len(self.x_coefficient_1) - 1)
 
-        self.correct_1 = self.random_1
-        self.correct_2 = self.random_2
+        self.correct_answer = [self.counter_1+str(self.random_1), self.counter_2+str(self.random_2)]
+        self.incorrect_1 = [str(self.random_1), str(self.random_2)]
+        self.incorrect_2 = [str(self.random_1), str(self.random_2)]
+        self.incorrect_3 = [str(self.random_1), str(self.random_2)]
+
+        print(self.correct_answer)
 
 
-class quadratics:
-    def __init__(self):
-        self.random_1, self.random_2 = random.randrange(1, 10), random.randint(1, 6)
-        self.symbols = ["+", "-"]
-        self.symbol_random_1, self.symbol_random_2 = random.choice(self.symbols), random.choice(self.symbols)
-
-        self.x_coefficient_1 = ['', 2, 3]
-        self.coefficient_random_1 = random.randint(1, len(self.x_coefficient_1) - 1)
-
-        self.x_coefficient_2 = ['', 2, 3]
-        self.coefficient_random_2 = random.randint(0, len(self.x_coefficient_1) - 1)
-
-        self.correct_1 = self.random_1
-        self.correct_2 = self.random_2
-
-
-inter_variable = quadratics()
-
-incorrect = [[], [], []]
-correct = [inter_variable.correct_1, inter_variable.correct_2]
-
-for x in range(len(incorrect)):
-    incorrect[x].append(random.randrange(1, 9))
-    incorrect[x].append(random.randrange(1, 9))
-
-incorrect_1 = tuple(sorted(incorrect[0], reverse=True))
-incorrect_2 = tuple(sorted(incorrect[1], reverse=True))
-incorrect_3 = tuple(sorted(incorrect[2], reverse=True))
-correct_4 = tuple(sorted(correct, reverse=True))
-
-answer_list = [incorrect_1, incorrect_2, incorrect_3, correct_4]
-if len(answer_list) == len(set(answer_list)):
-    print("There are no duplicates")
-    print(set(answer_list))
-
+inter_variable = Quadratics_Entry()
 
 gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
                      inter_variable.symbol_random_1, inter_variable.symbol_random_2,
@@ -60,7 +36,7 @@ gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_var
                      inter_variable.x_coefficient_2, inter_variable.coefficient_random_2]
 
 
-class algebra:
+class Algebra_Entry:
     def __init__(self, parameter):
         self.parameter = parameter
 
@@ -112,8 +88,5 @@ class algebra:
 
 root = Tk()
 root.geometry("500x500")
-app = algebra(root)
+app = Algebra_Entry(root)
 root.mainloop()
-
-
-
