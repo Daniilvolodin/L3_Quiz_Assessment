@@ -14,33 +14,112 @@ class Quadratics_Entry:
         self.remaining_symbol_2 = self.symbols.index(self.symbol_random_2)
         self.counter_2 = self.symbols[self.remaining_symbol_2 - 1]
 
-        self.x_coefficient_1 = [1, 2, 3]
-        self.coefficient_random_1 = random.randint(1, len(self.x_coefficient_1) - 1)
+        self.x_coefficient_1 = ['', 2, 3]
+        self.coefficient_random_1 = random.choice(self.x_coefficient_1)
 
-        self.x_coefficient_2 = [1, 2, 3]
-        self.coefficient_random_2 = random.randint(0, len(self.x_coefficient_1) - 1)
-
-        self.correct_answer = [self.counter_1+str(self.random_1), self.counter_2+str(self.random_2)]
-        self.incorrect_1 = [str(self.random_1), str(self.random_2)]
-        self.incorrect_2 = [str(self.random_1), str(self.random_2)]
-        self.incorrect_3 = [str(self.random_1), str(self.random_2)]
-
-        print(self.correct_answer)
+        self.x_coefficient_2 = ['', 2, 3]
+        self.coefficient_random_2 = random.choice(self.x_coefficient_2)
 
 
-inter_variable = Quadratics_Entry()
-
-gather_quadratics = [inter_variable.random_1, inter_variable.random_2, inter_variable.symbols,
-                     inter_variable.symbol_random_1, inter_variable.symbol_random_2,
-                     inter_variable.x_coefficient_1, inter_variable.coefficient_random_1,
-                     inter_variable.x_coefficient_2, inter_variable.coefficient_random_2]
+already_answered = []
 
 
 class Algebra_Entry:
+
     def __init__(self, parameter):
+
         self.parameter = parameter
+        self.get_quad_entry = Quadratics_Entry()
+        self.question_randomise = []
 
         self.option_value = IntVar()
+        font = "Arial 16 bold"
+        t = "{}{}{}{}{}"
+        ###########################################################################################################
+
+        x_cof_1 = self.get_quad_entry.coefficient_random_1
+
+        if x_cof_1 == '':
+            x_cof_1 = 1
+
+        x_cof_2 = self.get_quad_entry.coefficient_random_2
+
+        if x_cof_2 == '':
+            x_cof_2 = 1
+
+        random_1 = self.get_quad_entry.random_1
+        random_symbol_1 = self.get_quad_entry.symbol_random_1
+        if random_symbol_1 == '-':
+            random_1 = -random_1
+
+        random_2 = self.get_quad_entry.random_2
+        random_symbol_2 = self.get_quad_entry.symbol_random_2
+        if random_symbol_2 == '-':
+            random_2 = -random_2
+
+        # Correct
+        a_value = x_cof_1 * x_cof_2
+
+        b_value = (x_cof_1 * random_2) + (x_cof_2 * random_1)
+
+        if b_value < 0:
+            random_symbol_1 = ''
+
+        if b_value >= 0:
+            random_symbol_1 = '+'
+
+        c_value = random_1 * random_2
+        if c_value < 0:
+            random_symbol_2 = ''
+        if c_value >= 0:
+            random_symbol_2 = '+'
+
+        # Incorrect 1
+        inc_sym_b_1, inc_sym_c_1 = "", ""
+        inc_a_value_1 = x_cof_1 * x_cof_2
+        inc_b_value_1 = (x_cof_1 * random_2) - (x_cof_2 * random_1)
+        inc_c_value_1 = (random_1 * random_2)
+        if inc_b_value_1 >= 0:
+            inc_sym_b_1 = "+"
+        if inc_c_value_1 >= 0:
+            inc_sym_c_1 = "+"
+        self.incorrect_answer_1 = t.format(inc_a_value_1, inc_sym_b_1,
+                                           inc_b_value_1, inc_sym_c_1,
+                                           inc_c_value_1)
+        self.question_randomise.append(self.incorrect_answer_1)
+        # Incorrect 2
+        inc_sym_b_2, inc_sym_c_2 = "", ""
+        inc_a_value_2 = x_cof_1 * x_cof_2
+        inc_b_value_2 = (x_cof_1 * random_2) + (x_cof_2 * random_1)
+        inc_c_value_2 = random_1 + random_2
+        if inc_b_value_2 >= 0:
+            inc_sym_b_2 = "+"
+        if inc_c_value_2 >= 0:
+            inc_sym_c_2 = "+"
+        self.incorrect_answer_2 = t.format(inc_a_value_2, inc_sym_b_2,
+                                           inc_b_value_2, inc_sym_c_2,
+                                           inc_c_value_2)
+        self.question_randomise.append(self.incorrect_answer_2)
+        # Incorrect 3
+        inc_sym_b_3, inc_sym_c_3 = "", ""
+        inc_a_value_3 = x_cof_1 * x_cof_2
+        inc_b_value_3 = (x_cof_1 * random_2) - (x_cof_2 * random_1)
+        inc_c_value_3 = -(random_1 * random_2)
+        if inc_b_value_3 >= 0:
+            inc_sym_b_3 = "+"
+        if inc_c_value_3 >= 0:
+            inc_sym_c_3 = "+"
+        self.incorrect_answer_3 = t.format(inc_a_value_3, inc_sym_b_3,
+                                           inc_b_value_3, inc_sym_c_3,
+                                           inc_c_value_3)
+        self.question_randomise.append(self.incorrect_answer_3)
+        # Expand variables
+
+        self.correct_answer_1 = t.format(a_value, random_symbol_1, b_value, random_symbol_2, c_value)
+        self.question_randomise.append(self.correct_answer_1)
+        random.shuffle(self.question_randomise)
+
+        ###########################################################################################################
 
         self.start_frame = Frame()
         self.start_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -49,44 +128,64 @@ class Algebra_Entry:
         self.main_frame.grid(row=0)
 
         self.question_label = Label(self.main_frame, padx=10, pady=10,
-                                    text="({}x{}{})({}x{}{})".format(
-                                        inter_variable.x_coefficient_1[inter_variable.coefficient_random_1],
-                                        inter_variable.symbol_random_1,
-                                        inter_variable.random_1,
-                                        inter_variable.x_coefficient_2[inter_variable.coefficient_random_2],
-                                        inter_variable.symbol_random_2,
-                                        inter_variable.random_2), font="Arial 32 bold")
+                                    text="({}x{}{})({}x{}{})".format(self.get_quad_entry.coefficient_random_1,
+                                                                     self.get_quad_entry.symbol_random_1,
+                                                                     self.get_quad_entry.random_1,
+                                                                     self.get_quad_entry.coefficient_random_2,
+                                                                     self.get_quad_entry.symbol_random_2,
+                                                                     self.get_quad_entry.random_2), font="Arial 32 bold"
+                                    )
         self.question_label.grid(row=0)
-
-        self.option_1 = Radiobutton(self.main_frame, text="Option 1",
-                                    value=1, variable=self.option_value
+        self.option_1 = Radiobutton(self.main_frame, text="{}".format(self.question_randomise[0]),
+                                    value=1, variable=self.option_value, font=font,
+                                    command=lambda: self.enable_submit()
                                     )
         self.option_1.grid(row=1, pady=3, sticky=NSEW)
 
-        self.option_2 = Radiobutton(self.main_frame, text="Option 2",
-                                    value=2, variable=self.option_value
+        self.option_2 = Radiobutton(self.main_frame, text="{}".format(self.question_randomise[1]),
+                                    value=2, variable=self.option_value, font=font,
+                                    command=lambda: self.enable_submit()
                                     )
         self.option_2.grid(row=2, pady=3, sticky=NSEW)
 
-        self.option_3 = Radiobutton(self.main_frame, text="Option 3",
-                                    value=3, variable=self.option_value
+        self.option_3 = Radiobutton(self.main_frame, text="{}".format(self.question_randomise[2]),
+                                    value=3, variable=self.option_value, font=font,
+                                    command=lambda: self.enable_submit()
                                     )
         self.option_3.grid(row=3, pady=3, sticky=NSEW)
 
-        self.option_4 = Radiobutton(self.main_frame, text="Option 4",
-                                    value=4, variable=self.option_value
+        self.option_4 = Radiobutton(self.main_frame, text="{}".format(self.question_randomise[3]),
+                                    value=4, variable=self.option_value, font=font,
+                                    command=lambda: self.enable_submit()
                                     )
         self.option_4.grid(row=4, pady=3, sticky=NSEW)
 
-        self.submit_button = Button(self.main_frame, text="Submit",
-                                    command=lambda: self.check_answer())
+        self.submit_button = Button(self.main_frame, text="Submit", command=lambda: self.check_answer(),
+                                    state=DISABLED
+                                    )
         self.submit_button.grid(row=5, pady=3, sticky=NSEW)
 
     def check_answer(self):
+
+        var = self.option_value.get()
+
+        if self.question_randomise[var - 1] == \
+                self.question_randomise[self.question_randomise.index(self.correct_answer_1)]:
+            print("Correct Answer")
+        else:
+            print("Incorrect Answer")
+
         self.start_frame.destroy()
+        already_answered.append(self.question_randomise)
+        print(already_answered)
+        Algebra_Entry(self)
+
+    def enable_submit(self):
+        self.submit_button.configure(state=NORMAL)
 
 
 root = Tk()
 root.geometry("500x500")
+root.title("Quadratics Practice")
 app = Algebra_Entry(root)
 root.mainloop()
