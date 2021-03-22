@@ -27,14 +27,14 @@ already_answered = []
 class Algebra_Entry:
 
     def __init__(self, parameter):
-
+        self.repeated = False
+        self.option_value = IntVar()
         self.parameter = parameter
         self.get_quad_entry = Quadratics_Entry()
         self.question_randomise = []
 
-        self.option_value = IntVar()
         font = "Arial 16 bold"
-        t = "{}{}{}{}{}"
+        t = "{}x²{}{}x{}{}"
         ###########################################################################################################
 
         x_cof_1 = self.get_quad_entry.coefficient_random_1
@@ -164,11 +164,18 @@ class Algebra_Entry:
                                     state=DISABLED
                                     )
         self.submit_button.grid(row=5, pady=3, sticky=NSEW)
+        self.question_randomise.sort()
+
+        for x in range(len(already_answered)):
+            if self.question_randomise in already_answered:
+                self.repeated = True
+        if self.repeated is True:
+            self.start_frame.destroy()
+            Algebra_Entry(self)
+            already_answered.remove(self.question_randomise)
 
     def check_answer(self):
-
         var = self.option_value.get()
-
         if self.question_randomise[var - 1] == \
                 self.question_randomise[self.question_randomise.index(self.correct_answer_1)]:
             print("Correct Answer")
@@ -176,8 +183,9 @@ class Algebra_Entry:
             print("Incorrect Answer")
 
         self.start_frame.destroy()
+        self.question_randomise.sort()
+
         already_answered.append(self.question_randomise)
-        print(already_answered)
         Algebra_Entry(self)
 
     def enable_submit(self):
@@ -189,3 +197,4 @@ root.geometry("500x500")
 root.title("Quadratics Practice")
 app = Algebra_Entry(root)
 root.mainloop()
+
