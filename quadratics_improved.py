@@ -8,15 +8,28 @@ already_answered = []
 class Algebra_Entry:
     def __init__(self, parameter):
         # Initialise variables
-
+        # Acceptable array prevents number zero from
+        # appearing in question
         acceptable = [random.randrange(-9, -1), random.randrange(1, 9)]
+        
+        # Generates two integer variables from the range between -9,-1
+        # and 1,9. One integer per variable
         random1, random2 = random.choice(acceptable), random.choice(acceptable)
+        
+        # Generates two co-efficients between 1,3
         coef_pick = [1, 2, 3]
-
         x_coefficient1 = random.choice(coef_pick)
         x_coefficient2 = random.choice(coef_pick)
         
-        question = "({}{})({}{})".format(x_coefficient1, random1, x_coefficient2, random2)
+        show1, show2 = random1, random2
+
+
+        if random1 >= 0:
+            show1 = "+" + str(random1)
+        if random2 >= 0:
+            show2 = "+" + str(random2)
+
+        question = "({}{})({}{})".format(x_coefficient1, show1, x_coefficient2, show2)
 
         a_value = x_coefficient1 * x_coefficient2
         b_value = (x_coefficient1 * random2) + (x_coefficient2 * random1)
@@ -71,7 +84,7 @@ class Algebra_Entry:
         q = self.option_value.get()
         print(q)
 
-
+# Initialise GUI window
 root = Tk()
 app = Algebra_Entry(root)
 root.title("Quadratics Practice")
