@@ -1,16 +1,39 @@
+# Add tkinter module
 from tkinter import *
+import random
+
+already_answered = []
 
 
 class Algebra_Entry:
     def __init__(self, parameter):
+        # Initialise variables
+
+        acceptable = [random.randrange(-9, -1), random.randrange(1, 9)]
+        random1, random2 = random.choice(acceptable), random.choice(acceptable)
+        coef_pick = [1, 2, 3]
+
+        x_coefficient1 = random.choice(coef_pick)
+        x_coefficient2 = random.choice(coef_pick)
+        
+        question = "({}{})({}{})".format(x_coefficient1, random1, x_coefficient2, random2)
+
+        a_value = x_coefficient1 * x_coefficient2
+        b_value = (x_coefficient1 * random2) + (x_coefficient2 * random1)
+        c_value = random1 * random2
+
+        answer_dict = {
+            "Correct": "{}x²{}x{}".format(a_value, b_value, c_value)
+        }
+
         self.parameter = parameter
         self.option_value = IntVar()
 
         self.start_frame = Frame()
         self.start_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.question_label = Label(self.start_frame, text="-Label-",
-                                    font="Arial 32 bold", padx=2, pady=1,
+        self.question_label = Label(self.start_frame, text=question,
+                                    font="Arial 24 bold", padx=2, pady=1,
                                     fg='grey')
         self.question_label.grid(row=0, sticky=N)
 
@@ -25,7 +48,7 @@ class Algebra_Entry:
 
         self.option_2 = Radiobutton(self.button_frame, text="{2}",
                                     variable=self.option_value, value=2,
-                                    command=lambda: self.get_value(), bg='green'
+                                    command=lambda: self.get_value()
                                     )
         self.option_2.grid(row=2, pady=3, sticky=NSEW)
 
@@ -53,4 +76,5 @@ root = Tk()
 app = Algebra_Entry(root)
 root.title("Quadratics Practice")
 root.mainloop()
+
 
