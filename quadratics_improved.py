@@ -13,6 +13,7 @@ def check_operator(x):
 
 
 already_answered = []
+i_c = []
 
 
 # Class creates quiz window.
@@ -45,6 +46,8 @@ class Algebra_Entry:
         b_op = check_operator(x=b_value)
         c_op = check_operator(x=c_value)
         alt_b_value = check_operator(x=b_value - (2 * (x_coefficient2 * random1)))
+
+        questions_left = 10
 
         self.correct = "{}x²{}x{}".format(a_value, b_op, c_op)
         self.incorrect_1 = "{}x²{}x{}".format(a_value, str(b_op).replace(str(b_op)[0],
@@ -94,6 +97,20 @@ class Algebra_Entry:
                                     state=DISABLED)
         self.submit_button.grid(row=5, sticky=NSEW)
 
+        self.remaining_label = Label(self.start_frame, text="Questions Remaining: {}"
+                                     .format(questions_left - len(i_c)),
+                                     fg='grey',
+                                     font='Arial 16 bold')
+        self.remaining_label.grid(row=2)
+
+        if questions_left - len(i_c) <= 0:
+            self.to_score_win()
+            i_c.clear()
+
+    def to_score_win(self):
+        self.start_frame.destroy()
+        statsWin()
+
     def enable_submit_button(self):
         self.submit_button.configure(state=NORMAL)
 
@@ -102,17 +119,40 @@ class Algebra_Entry:
         user_answer = self.answer_list[value - 1]
 
         if user_answer is self.correct:
-            print('Correct')
+            i_c.append("Correct")
         else:
-            print('Incorrect')
-
+            i_c.append("Incorrect")
+        already_answered.append(user_answer)
         self.start_frame.destroy()
+        Algebra_Entry(self)
+
+
+class statsWin:
+    def __init__(self):
+        self.show_win = Frame()
+        self.show_win.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        self.score_label = Label(self.show_win, padx=10, pady=10, fg='grey',
+                                 text="Incorrect: {}\nCorrect: {}"
+                                 .format(i_c.count("Incorrect"),
+                                         i_c.count("Correct")),
+                                 font="Arial 10 bold")
+        self.score_label.grid(row=0)
+
+        self.return_button = Button(self.show_win, padx=3, pady=2,
+                                    font='Arial 16 bold', bg='grey',
+                                    text='Return', command=lambda: self.main_gui_return())
+        self.return_button.grid(row=1)
+
+    def main_gui_return(self):
+        self.show_win.destroy()
         Algebra_Entry(self)
 
 
 # Initialise GUI window
 root = Tk()
 app = Algebra_Entry(root)
+root.geometry("270x270")
 root.title("Quadratics Practice")
 root.mainloop()
 
