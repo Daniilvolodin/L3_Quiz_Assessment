@@ -6,7 +6,7 @@ class template:
 
     # Initialises widgets within a window
     def __init__(self, parameter):
-
+        self.parameter = parameter
         # Set up a variable
         self.get_value = IntVar()
 
@@ -42,23 +42,32 @@ class template:
 
         # Submit button that submits user option
         self.submit_button = Button(self.initial_frame, text="Submit", bg='#1b5b7a',
-                                    fg='white', padx=13, command=lambda: self.direct_option(self.get_value))
+                                    fg='white', padx=13, command=lambda: self.direct_option())
         self.submit_button.grid(row=4, pady=4)
 
         # Creates a warning label widget
         self.warning_label = Label(self.initial_frame)
         self.warning_label.grid(row=5, sticky=N)
 
+        # Is a help button
+        self.help_button = Button(self.initial_frame, text="Help?",
+                                  font="Arial 12 bold", command=lambda: self.direct_help())
+        self.help_button.grid(row=6, sticky=N)
+
+    # Directs user to a help window
+    def direct_help(self):
+        self.gather.destroy()
+        toHelp()
+
     # Function responsible for directing user to the option screen
     # if user didn't pick any of the options, the program displays a warning
-    def direct_option(self, variables):
-        variable = self.get_value.get()
-        variables = variables
+    def direct_option(self):
+        variables = self.get_value.get()
 
         # If user picked one of the options, the program continues
-        if variable > 0:
+        if variables > 0:
             self.gather.destroy()
-            option_direct(self, variable)
+            option_direct(self, variables)
         # If user didn't pick anything, the program displays a warning
         else:
             self.warning_label.configure(text="Pick One Of The Options Above", fg='red')
@@ -87,6 +96,11 @@ class option_direct:
                                     command=lambda: self.return_template())
         self.return_button.grid(row=1)
 
+        # Is an exit button
+        self.exit_button = Button(self.start_frame, padx=10, pady=4, text='Exit',
+                                  command=lambda: quit())
+        self.exit_button.grid(row=2, pady=(2, 0))
+
     # Function responsible for directing user to
     # the main screen
     def return_template(self):
@@ -94,8 +108,35 @@ class option_direct:
         template(self)
 
 
+# Sets up a help window
+class toHelp:
+    def __init__(self):
+        # Sets up a frame in the centre
+        self.help_frame = Frame()
+        self.help_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        
+        # Help text
+        self.help_label = Label(self.help_frame, text="Help text goes here",
+                                font="Arial 16 italic")
+        self.help_label.grid(row=0)
+        
+        # Return button
+        self.return_help_button = Button(self.help_frame, text='Return to main screen',
+                                         padx=3, pady=2, font='Arial 10 bold',
+                                         bg='grey', command=lambda: self.to_main_screen())
+        self.return_help_button.grid(row=1)
+    
+    # Function returns user to main Gui window
+    def to_main_screen(self):
+        self.help_frame.destroy()
+        template(self)
+
+# If the name of the file is the same as the
+# main file
 if __name__ == "__main__":
     root = Tk()
     root.title("Layout")
+    root.geometry("300x300")
     app = template(root)
     root.mainloop()
+
