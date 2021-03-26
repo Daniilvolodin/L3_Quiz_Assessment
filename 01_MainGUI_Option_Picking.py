@@ -27,22 +27,23 @@ class template:
         # Displays 3 options in a form of 'Radio' buttons
         self.radio_button_1 = Radiobutton(self.initial_frame, text="Option 1",
                                           value=1, variable=self.get_value,
-                                          bg='grey', fg='blue')
+                                          bg='grey', fg='blue', command=lambda: self.enable_submit())
         self.radio_button_1.grid(row=1, pady=(4, 0), padx=10)
 
         self.radio_button_2 = Radiobutton(self.initial_frame, text="Option 2",
                                           value=2, variable=self.get_value,
-                                          bg='grey', fg='blue')
+                                          bg='grey', fg='blue', command=lambda: self.enable_submit())
         self.radio_button_2.grid(row=2, pady=(4, 0), padx=10)
 
         self.radio_button_3 = Radiobutton(self.initial_frame, text="Option 3",
                                           value=3, variable=self.get_value,
-                                          bg='grey', fg='blue')
+                                          bg='grey', fg='blue', command=lambda: self.enable_submit())
         self.radio_button_3.grid(row=3, pady=(4, 0), padx=10)
 
         # Submit button that submits user option
         self.submit_button = Button(self.initial_frame, text="Submit", bg='#1b5b7a',
-                                    fg='white', padx=13, command=lambda: self.direct_option())
+                                    fg='white', padx=13, command=lambda: self.direct_option(),
+                                    state=DISABLED)
         self.submit_button.grid(row=4, pady=4)
 
         # Creates a warning label widget
@@ -53,6 +54,9 @@ class template:
         self.help_button = Button(self.initial_frame, text="Help?",
                                   font="Arial 12 bold", command=lambda: self.direct_help())
         self.help_button.grid(row=6, sticky=N)
+
+    def enable_submit(self):
+        self.submit_button.configure(state=NORMAL)
 
     # Directs user to a help window
     def direct_help(self):
@@ -114,18 +118,18 @@ class toHelp:
         # Sets up a frame in the centre
         self.help_frame = Frame()
         self.help_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        
+
         # Help text
         self.help_label = Label(self.help_frame, text="Help text goes here",
                                 font="Arial 16 italic")
         self.help_label.grid(row=0)
-        
+
         # Return button
         self.return_help_button = Button(self.help_frame, text='Return to main screen',
                                          padx=3, pady=2, font='Arial 10 bold',
                                          bg='grey', command=lambda: self.to_main_screen())
         self.return_help_button.grid(row=1)
-    
+
     # Function returns user to main Gui window
     def to_main_screen(self):
         self.help_frame.destroy()
@@ -139,4 +143,5 @@ if __name__ == "__main__":
     root.geometry("300x300")
     app = template(root)
     root.mainloop()
+
 
