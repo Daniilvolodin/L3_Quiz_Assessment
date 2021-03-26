@@ -53,7 +53,7 @@ class Algebra_Entry:
         self.incorrect_1 = "{}x²{}x{}".format(a_value, str(b_op).replace(str(b_op)[0],
                                                                          operators[operators.index(str(b_op)[0]) - 1]),
                                               c_op)
-        self.incorrect_2 = "{}x²{}x{}".format(a_value, b_op, random1 + random2)
+        self.incorrect_2 = "{}x²{}x{}".format(a_value, b_op, check_operator(x=random1 + random2))
         self.incorrect_3 = "{}x²{}x{}".format(a_value, alt_b_value, c_op)
 
         self.answer_list = [self.correct, self.incorrect_1, self.incorrect_2, self.incorrect_3]
@@ -155,4 +155,5 @@ app = Algebra_Entry(root)
 root.geometry("270x270")
 root.title("Quadratics Practice")
 root.mainloop()
+
 
