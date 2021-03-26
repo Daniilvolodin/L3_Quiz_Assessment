@@ -39,16 +39,23 @@ class Algebra_Entry:
 
         question = "({}x{})({}x{})".format(x_coefficient1, show1, x_coefficient2, show2)
 
+        # Operations to getting values from
+        # complex form quadratic
         a_value = x_coefficient1 * x_coefficient2
         b_value = (x_coefficient1 * random2) + (x_coefficient2 * random1)
         c_value = random1 * random2
 
+        # Variables use operate checking function to decide
+        # whether the symbol is a plus or a minus
         b_op = check_operator(x=b_value)
         c_op = check_operator(x=c_value)
         alt_b_value = check_operator(x=b_value - (2 * (x_coefficient2 * random1)))
 
+        # Number of questions in a quiz
         questions_left = 10
-
+        
+        # Creates alternative versions of options
+        # one of four variables stores correct answers
         self.correct = "{}x²{}x{}".format(a_value, b_op, c_op)
         self.incorrect_1 = "{}x²{}x{}".format(a_value, str(b_op).replace(str(b_op)[0],
                                                                          operators[operators.index(str(b_op)[0]) - 1]),
@@ -103,21 +110,29 @@ class Algebra_Entry:
                                      font='Arial 16 bold')
         self.remaining_label.grid(row=2)
 
+        # Once the question variable hits its limit
+        # It is going to call the score_win function
+        # that directs user to his overall score
         if questions_left - len(i_c) <= 0:
             self.to_score_win()
             i_c.clear()
 
+    # Directs user to the score window
     def to_score_win(self):
         self.start_frame.destroy()
         statsWin()
 
+    # Enables the submit button
     def enable_submit_button(self):
         self.submit_button.configure(state=NORMAL)
 
+    # Function checks if user picked option is correct
     def check_answer(self):
         value = self.option_value.get()
         user_answer = self.answer_list[value - 1]
 
+        # Checks if option is correct or incorrect and adds
+        # user answer to a list
         if user_answer is self.correct:
             i_c.append("Correct")
         else:
@@ -127,6 +142,8 @@ class Algebra_Entry:
         Algebra_Entry(self)
 
 
+# Creates a stats window which shows
+# User score
 class statsWin:
     def __init__(self):
         self.show_win = Frame()
@@ -155,5 +172,6 @@ app = Algebra_Entry(root)
 root.geometry("270x270")
 root.title("Quadratics Practice")
 root.mainloop()
+
 
 
