@@ -53,7 +53,7 @@ class Algebra_Entry:
         alt_b_value = check_operator(x=b_value - (2 * (x_coefficient2 * random1)))
 
         # Number of questions in a quiz
-        questions_left = 10
+        questions_left = 9
 
         # Creates alternative versions of options
         # one of four variables stores correct answers
@@ -112,17 +112,18 @@ class Algebra_Entry:
         self.remaining_label.grid(row=2)
 
         # Checks the number of answers in a non-duplicate list
-        # and compares it to the number of answers in original 
+        # and compares it to the number of answers in original
         # list
-        if len(set(already_answered)) != len(already_answered):
+        while len(set(already_answered)) != len(already_answered):
             print("Dupe")
+            already_answered.remove(already_answered[-1])
             self.start_frame.destroy()
             Algebra_Entry(self)
 
         # Once the question variable hits its limit
         # It is going to call the score_win function
         # that directs user to his overall score
-        if questions_left - len(i_c) <= 0:
+        if questions_left - len(i_c) < 0:
             self.to_score_win()
             i_c.clear()
             already_answered.clear()
@@ -182,7 +183,6 @@ app = Algebra_Entry(root)
 root.geometry("270x270")
 root.title("Quadratics Practice")
 root.mainloop()
-
 
 
 
