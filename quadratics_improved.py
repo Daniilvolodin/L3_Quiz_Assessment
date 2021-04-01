@@ -38,6 +38,7 @@ class Algebra_Entry:
         show2 = check_operator(x=random2)
 
         question = "({}x{})({}x{})".format(x_coefficient1, show1, x_coefficient2, show2)
+        already_answered.append(question)
 
         # Operations to getting values from
         # complex form quadratic
@@ -53,7 +54,7 @@ class Algebra_Entry:
 
         # Number of questions in a quiz
         questions_left = 10
-        
+
         # Creates alternative versions of options
         # one of four variables stores correct answers
         self.correct = "{}x²{}x{}".format(a_value, b_op, c_op)
@@ -110,12 +111,21 @@ class Algebra_Entry:
                                      font='Arial 16 bold')
         self.remaining_label.grid(row=2)
 
+        # Checks the number of answers in a non-duplicate list
+        # and compares it to the number of answers in original 
+        # list
+        if len(set(already_answered)) != len(already_answered):
+            print("Dupe")
+            self.start_frame.destroy()
+            Algebra_Entry(self)
+
         # Once the question variable hits its limit
         # It is going to call the score_win function
         # that directs user to his overall score
         if questions_left - len(i_c) <= 0:
             self.to_score_win()
             i_c.clear()
+            already_answered.clear()
 
     # Directs user to the score window
     def to_score_win(self):
@@ -137,7 +147,7 @@ class Algebra_Entry:
             i_c.append("Correct")
         else:
             i_c.append("Incorrect")
-        already_answered.append(user_answer)
+
         self.start_frame.destroy()
         Algebra_Entry(self)
 
@@ -172,6 +182,7 @@ app = Algebra_Entry(root)
 root.geometry("270x270")
 root.title("Quadratics Practice")
 root.mainloop()
+
 
 
 
