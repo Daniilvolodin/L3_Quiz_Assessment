@@ -1,6 +1,5 @@
 from tkinter import *
 import random
-import re
 
 
 def check_operator(x):
@@ -9,24 +8,23 @@ def check_operator(x):
     else:
         return x
 
+i_c = []
+already_answered = []
+
 
 class entryAlgebra:
     def __init__(self, parameter):
 
-        acceptable = [random.randrange(-9, -1), random.randrange(1, 9)]
-        random1, random2 = random.choice(acceptable), random.choice(acceptable)
-        coef_pick = [1, 2, 3]
-        x_coefficient1 = random.choice(coef_pick)
-        x_coefficient2 = random.choice(coef_pick)
-        show1 = check_operator(x=random1)
-        show2 = check_operator(x=random2)
-        question = "({}x{})({}x{})".format(x_coefficient1, show1, x_coefficient2, show2)
+        acceptable1 = [random.randrange(-9, -1), random.randrange(1, 9)]
+        acceptable2 = [random.randrange(-9, -1), random.randrange(1, 9)]
+        random1, random2 = random.choice(acceptable1), random.choice(acceptable2)
+        self.show1 = check_operator(x=random1)
+        self.show2 = check_operator(x=random2)
+        question = "(x{})(x{})".format(self.show1, self.show2)
 
-        self.correct_r_1, self.correct_r_2 = (-random1/x_coefficient1), -random2
-        print(self.correct_r_1)
-        print(self.correct_r_2)
         self.get_variable1 = StringVar()
         self.get_variable2 = StringVar()
+
         self.parameter = parameter
         self.initialize_frame = Frame()
         self.initialize_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -57,27 +55,25 @@ class entryAlgebra:
         self.submit_entry.grid(row=3, pady=5, sticky=NSEW, columnspan=2)
 
     def on_submit(self):
-
-        variable1 = self.get_variable1.get().replace(" ", "")
-        variable2 = self.get_variable2.get().replace(" ", "")
-        var_pattern = '^[1-9][1-9]?/[1-9]?[1-9]$'
-        check1 = re.match(var_pattern, variable1)
-
-        if check1:
-            n1 = int(variable1[0:1])
-            print(n1)
-            n2 = int(variable1[2])
-
         try:
-            (float(variable1), float(variable2))
+            two_of = [int(self.get_variable1.get()),
+                      int(self.get_variable2.get())]
+            two_of.sort()
+
+            correct = [-1*int(self.show1), -1*int(self.show2)]
+            correct.sort()
 
         except ValueError:
-            print("No Character")
+            print("Cannot be a character or a symbol")
 
         else:
-            if float(variable1) == round(self.correct_r_1, 2):
-                print("Correct")
-
+            if two_of == correct:
+                i_c.append('Correct')
+            else:
+                i_c.append('Incorrect')
+            print(i_c)
+            self.initialize_frame.destroy()
+            entryAlgebra(self)
 
 if __name__ == "__main__":
     root = Tk()
@@ -85,3 +81,4 @@ if __name__ == "__main__":
     root.geometry("270x270")
     app = entryAlgebra(root)
     root.mainloop()
+
