@@ -54,6 +54,10 @@ class entryAlgebra:
                                    font="Arial 12 bold", command=lambda: self.on_submit())
         self.submit_entry.grid(row=3, pady=5, sticky=NSEW, columnspan=2)
 
+        self.remaining_questions = Label(self.initialize_frame, text="Questions remaining {}".format(9-len(i_c)),
+                                         font="Arial 16 bold", fg='grey')
+        self.remaining_questions.grid(row=2)
+
     def on_submit(self):
         try:
             two_of = [int(self.get_variable1.get()),
@@ -81,4 +85,5 @@ if __name__ == "__main__":
     root.geometry("270x270")
     app = entryAlgebra(root)
     root.mainloop()
+
 
