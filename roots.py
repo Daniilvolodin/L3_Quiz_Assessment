@@ -8,6 +8,7 @@ def check_operator(x):
     else:
         return x
 
+
 i_c = []
 already_answered = []
 
@@ -54,21 +55,37 @@ class entryAlgebra:
                                    font="Arial 12 bold", command=lambda: self.on_submit())
         self.submit_entry.grid(row=3, pady=5, sticky=NSEW, columnspan=2)
 
-        self.remaining_questions = Label(self.initialize_frame, text="Questions remaining {}".format(9-len(i_c)),
+        self.remaining_questions = Label(self.initialize_frame, text="Questions remaining {}".format(9 - len(i_c)),
                                          font="Arial 16 bold", fg='grey')
         self.remaining_questions.grid(row=2)
 
+        self.entry_warning_label = Label(self.initialize_frame, fg='dark red')
+        self.entry_warning_label.grid(row=3)
+
+        if (9 - len(i_c)) < 0:
+            self.initialize_frame.destroy()
+            resultsShow()
+
     def on_submit(self):
+        two_of_o = [self.get_variable1.get(),
+                    self.get_variable2.get()]
+
+        correct = [self.show1, self.show2]
         try:
-            two_of = [int(self.get_variable1.get()),
-                      int(self.get_variable2.get())]
+
+            two_of = [int(x) for x in two_of_o]
             two_of.sort()
 
-            correct = [-1*int(self.show1), -1*int(self.show2)]
+            correct = [-int(y) for y in correct]
+            print(correct)
             correct.sort()
 
         except ValueError:
-            print("Cannot be a character or a symbol")
+            if '' in two_of_o:
+                self.entry_warning_label.configure(text="Please fill in every entry box")
+                for x in range(len(two_of_o)):
+            else:
+                self.entry_warning_label.configure(text="Cannot be a character or a symbol")
 
         else:
             if two_of == correct:
@@ -78,6 +95,26 @@ class entryAlgebra:
             print(i_c)
             self.initialize_frame.destroy()
             entryAlgebra(self)
+
+
+class resultsShow:
+    def __init__(self):
+        self.start_frame = Frame()
+        self.start_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        self.correct_incorrect = Label(self.start_frame, text="Correct: {}\nIncorrect: {}".
+                                       format(i_c.count("Correct"), i_c.count("Incorrect")),
+                                       font="Arial 16 bold")
+        self.correct_incorrect.grid(row=0)
+
+        self.return_button = Button(self.start_frame, text="Return", font="Arial 16 bold",
+                                    command=lambda: self.ret_to_quiz(), bg='grey')
+        self.return_button.grid(row=1, sticky=NSEW)
+
+    def ret_to_quiz(self):
+        i_c.clear()
+        self.start_frame.destroy()
+        entryAlgebra(self)
 
 if __name__ == "__main__":
     root = Tk()
