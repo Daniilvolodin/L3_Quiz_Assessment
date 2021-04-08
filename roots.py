@@ -9,6 +9,16 @@ def check_operator(x):
         return x
 
 
+def simultaneos(v, s):
+
+    try:
+        float(v)
+
+    except ValueError:
+        print("Invalid")
+        return
+
+
 i_c = []
 already_answered = []
 
@@ -67,34 +77,14 @@ class entryAlgebra:
             resultsShow()
 
     def on_submit(self):
-        two_of_o = [self.get_variable1.get(),
-                    self.get_variable2.get()]
 
-        correct = [self.show1, self.show2]
-        try:
+        n1 = ''
 
-            two_of = [int(x) for x in two_of_o]
-            two_of.sort()
+        simultaneos(v=self.get_variable1.get(), s=n1)
+        simultaneos(v=self.get_variable2.get(), s=n1)
 
-            correct = [-int(y) for y in correct]
-            print(correct)
-            correct.sort()
-
-        except ValueError:
-            if '' in two_of_o:
-                self.entry_warning_label.configure(text="Please fill in every entry box")
-                for x in range(len(two_of_o)):
-            else:
-                self.entry_warning_label.configure(text="Cannot be a character or a symbol")
-
-        else:
-            if two_of == correct:
-                i_c.append('Correct')
-            else:
-                i_c.append('Incorrect')
-            print(i_c)
-            self.initialize_frame.destroy()
-            entryAlgebra(self)
+        self.initialize_frame.destroy()
+        entryAlgebra(self)
 
 
 class resultsShow:
@@ -116,11 +106,13 @@ class resultsShow:
         self.start_frame.destroy()
         entryAlgebra(self)
 
+
 if __name__ == "__main__":
     root = Tk()
     root.title("Questions about roots")
     root.geometry("270x270")
     app = entryAlgebra(root)
     root.mainloop()
+
 
 
