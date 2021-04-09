@@ -9,6 +9,37 @@ def check_operator(x):
         return x
 
 
+def change_colours(value, colour):
+    str(colour)
+
+    try:
+        float(value)
+    except ValueError:
+        colour = '#eb5959'
+        return colour
+    else:
+        colour = 'white'
+        return colour
+
+
+def check_for_errors(value, message):
+    str(message)
+
+    try:
+        float(value)
+    except ValueError:
+        if value.replace(' ', '') == '':
+            message = 'No Blank'
+        else:
+            message = 'No Character'
+
+        return message
+    else:
+        message = ''
+        return message
+        pass
+
+
 i_c = []
 already_answered = []
 
@@ -67,19 +98,13 @@ class entryAlgebra:
             resultsShow()
 
     def on_submit(self):
-        attempts = [self.get_variable1.get(), self.get_variable2.get()]
-        try:
-
-            attempts = [float(x) for x in attempts]
-            attempts.sort()
-
-        except ValueError:
-
-            if '' in attempts:
-                warning = "Entry boxes cannot be left blank"
-            else:
-                warning = "Entry boxes cannot contain characters or symbols"
-            self.entry_warning_label.configure(text=warning, wrap=200)
+        message = ''
+        default = 'white'
+        get_feedback = [self.get_variable1.get(), self.get_variable2.get()]
+        for x in get_feedback:
+            self.entry_warning_label.configure(text=check_for_errors(value=x, message=message))
+        self.root_entry_1.configure(bg=change_colours(value=self.get_variable1.get(), colour=default))
+        self.root_entry_2.configure(bg=change_colours(value=self.get_variable2.get(), colour=default))
 
 
 class resultsShow:
