@@ -9,16 +9,6 @@ def check_operator(x):
         return x
 
 
-def simultaneos(v, s):
-
-    try:
-        float(v)
-
-    except ValueError:
-        print("Invalid")
-        return
-
-
 i_c = []
 already_answered = []
 
@@ -77,14 +67,19 @@ class entryAlgebra:
             resultsShow()
 
     def on_submit(self):
+        attempts = [self.get_variable1.get(), self.get_variable2.get()]
+        try:
 
-        n1 = ''
+            attempts = [float(x) for x in attempts]
+            attempts.sort()
 
-        simultaneos(v=self.get_variable1.get(), s=n1)
-        simultaneos(v=self.get_variable2.get(), s=n1)
+        except ValueError:
 
-        self.initialize_frame.destroy()
-        entryAlgebra(self)
+            if '' in attempts:
+                warning = "Entry boxes cannot be left blank"
+            else:
+                warning = "Entry boxes cannot contain characters or symbols"
+            self.entry_warning_label.configure(text=warning, wrap=200)
 
 
 class resultsShow:
@@ -113,6 +108,7 @@ if __name__ == "__main__":
     root.geometry("270x270")
     app = entryAlgebra(root)
     root.mainloop()
+
 
 
 
