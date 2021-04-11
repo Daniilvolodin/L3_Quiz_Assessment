@@ -16,10 +16,16 @@ def change_colours(value, colour):
         float(value)
     except ValueError:
         colour = '#eb5959'
+
         return colour
+
     else:
         colour = 'white'
         return colour
+
+
+i_c = []
+already_answered = []
 
 
 def check_for_errors(value, message):
@@ -36,12 +42,8 @@ def check_for_errors(value, message):
         return message
     else:
         message = ''
+
         return message
-        pass
-
-
-i_c = []
-already_answered = []
 
 
 class entryAlgebra:
@@ -100,11 +102,27 @@ class entryAlgebra:
     def on_submit(self):
         message = ''
         default = 'white'
+
         get_feedback = [self.get_variable1.get(), self.get_variable2.get()]
         for x in get_feedback:
             self.entry_warning_label.configure(text=check_for_errors(value=x, message=message))
+
         self.root_entry_1.configure(bg=change_colours(value=self.get_variable1.get(), colour=default))
         self.root_entry_2.configure(bg=change_colours(value=self.get_variable2.get(), colour=default))
+        n1, n2 = self.get_variable1.get(), self.get_variable2.get()
+
+        try:
+            float(n1) and float(n2)
+        except ValueError:
+            pass
+        else:
+            attempt = [float(x) for x in [n1, n2]]
+            correct = [-float(x) for x in [n1, n2]]
+            attempt.sort(), correct.sort()
+            if attempt == correct:
+                print('Correct')
+            self.initialize_frame.destroy()
+            entryAlgebra(self)
 
 
 class resultsShow:
