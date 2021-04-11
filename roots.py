@@ -2,91 +2,6 @@ from tkinter import *
 import random
 
 
-def check_operator(x):
-    if x >= 0:
-        return "+" + str(x)
-    else:
-        return x
-
-
-def change_colours(value, colour):
-    str(colour)
-
-    try:
-        float(value)
-    except ValueError:
-        colour = '#eb5959'
-
-        return colour
-
-    else:
-        colour = 'white'
-        return colour
-
-
-i_c = []
-already_answered = []
-
-
-def check_for_errors(value, message):
-    str(message)
-
-    try:
-        float(value)
-    except ValueError:
-        if value.replace(' ', '') == '':
-            message = 'No Blank'
-        else:
-            message = 'No Character'
-
-        return message
-    else:
-        message = ''
-
-        return message
-
-
-class entryAlgebra:
-    def __init__(self, parameter):
-
-        acceptable1 = [random.randrange(-9, -1), random.randrange(1, 9)]
-        acceptable2 = [random.randrange(-9, -1), random.randrange(1, 9)]
-        random1, random2 = random.choice(acceptable1), random.choice(acceptable2)
-        self.show1 = check_operator(x=random1)
-        self.show2 = check_operator(x=random2)
-        question = "(x{})(x{})".format(self.show1, self.show2)
-
-        self.get_variable1 = StringVar()
-        self.get_variable2 = StringVar()
-
-        self.parameter = parameter
-        self.initialize_frame = Frame()
-        self.initialize_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-
-        self.question_label = Label(self.initialize_frame, text=question, justify=CENTER,
-                                    font="Arial 16 bold")
-        self.question_label.grid(row=0, pady=10)
-
-        self.entry_frame = Frame(self.initialize_frame)
-        self.entry_frame.grid(row=1)
-
-        self.label_root_1 = Label(self.entry_frame, text="First Root: ",
-                                  font="Arial 10 bold")
-        self.label_root_1.grid(row=1, column=0)
-
-        self.root_entry_1 = Entry(self.entry_frame, width=6, textvariable=self.get_variable1)
-        self.root_entry_1.grid(row=1, column=1)
-
-        self.label_root_2 = Label(self.entry_frame, text="Second Root: ",
-                                  font="Arial 10 bold")
-        self.label_root_2.grid(row=2, column=0)
-
-        self.root_entry_2 = Entry(self.entry_frame, width=6, textvariable=self.get_variable2)
-        self.root_entry_2.grid(row=2, column=1, pady=5)
-from tkinter import *
-import random
-
-
 # Function that decides whether to put a plus
 # or a minus
 def check_operator(x):
@@ -138,9 +53,8 @@ def check_for_errors(value, message):
 
         return message
     else:
-        message = ''
 
-        return message
+        pass
 
 
 # Starting UI
@@ -225,6 +139,7 @@ class entryAlgebra:
         # Goes through user input to find a discrepancy
         for x in get_feedback:
             # Generates appropriate message based on user input
+
             self.entry_warning_label.configure(text=check_for_errors(value=x, message=message))
 
         # Sets user entry background colour base on his input
@@ -241,6 +156,7 @@ class entryAlgebra:
         except ValueError:
             pass
         else:
+            # Sets every value to number
             attempt = [float(x) for x in [n1, n2]]
             correct = [-float(x) for x in [self.show1, self.show2]]
             attempt.sort(), correct.sort()
@@ -270,7 +186,7 @@ class resultsShow:
         self.return_button = Button(self.start_frame, text="Return", font="Arial 16 bold",
                                     command=lambda: self.ret_to_quiz(), bg='grey')
         self.return_button.grid(row=1, sticky=NSEW)
-    
+
     # Returns user back to starting UI
     def ret_to_quiz(self):
         i_c.clear()
@@ -284,7 +200,6 @@ if __name__ == "__main__":
     root.geometry("270x270")
     app = entryAlgebra(root)
     root.mainloop()
-
 
 
 
