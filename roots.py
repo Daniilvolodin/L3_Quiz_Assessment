@@ -16,9 +16,9 @@ def check_operator(x):
 # if it's not valid, the colour is pale red
 def change_colours(value, colour):
     str(colour)
-
+    stripped = value.replace(' ', '')
     try:
-        float(value)
+        float(stripped)
     except ValueError:
         colour = '#eb5959'
 
@@ -27,6 +27,7 @@ def change_colours(value, colour):
     else:
         colour = 'white'
         return colour
+
 
 # List for counting correct/incorrect answers
 i_c = []
@@ -44,8 +45,10 @@ def check_for_errors(value, message):
     str(message)
 
     try:
-        float(value)
+        float(value.replace(' ', ''))
+
     except ValueError:
+
         if value.replace(' ', '') == '':
             message = 'Cannot be blank'
         else:
@@ -58,6 +61,9 @@ def check_for_errors(value, message):
 
 
 # Starting UI
+# Contains all the buttons and entries
+# Contains variables that use random library
+# random integers are being generated within this class
 class entryAlgebra:
     def __init__(self, parameter):
         # Recycled variables from the previous component
@@ -145,18 +151,20 @@ class entryAlgebra:
         # Sets user entry background colour base on his input
         self.root_entry_1.configure(bg=change_colours(value=self.get_variable1.get(), colour=default))
         self.root_entry_2.configure(bg=change_colours(value=self.get_variable2.get(), colour=default))
-        n1, n2 = self.get_variable1.get(), self.get_variable2.get()
+        n1, n2 = self.get_variable1.get().replace(' ', ''), self.get_variable2.get().replace(' ', '')
 
         # turns user input into integer form
         try:
             float(n1) and float(n2)
         # if user integer form is invalid
         # the program keeps user on the
-        # same question until he fill in entry correctly
+        # same question until he fills it in correctly
         except ValueError:
+            print("ERROR")
             pass
+
         else:
-            # Sets every value to number
+            # Sets every value to a number
             attempt = [float(x) for x in [n1, n2]]
             correct = [-float(x) for x in [self.show1, self.show2]]
             attempt.sort(), correct.sort()
