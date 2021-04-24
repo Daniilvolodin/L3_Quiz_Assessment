@@ -24,10 +24,11 @@ class time_GUI:
                                   command=lambda: self.add_minutes())
         self.set_minutes.grid(row=0, column=0)
 
-        self.set_seconds = Button(self.button_frame, text='ADD 30 SECONDS',
+        self.set_seconds = Button(self.button_frame, text='ADD 10 SECONDS',
                                   command=lambda: self.add_seconds())
         self.set_seconds.grid(row=0, column=1)
-        self.start_button = Button(self.start_frame, text='START', command=lambda: self.update())
+        self.start_button = Button(self.start_frame, text='START', command=lambda: self.update(),
+                                   state=DISABLED)
         self.start_button.grid(row=2, sticky=NSEW)
 
     def add_seconds(self):
@@ -36,14 +37,16 @@ class time_GUI:
             self.seconds = 0
             self.minutes += 1
         self.time_label.configure(text="{}:{}".format(self.minutes, self.seconds))
+        self.start_button.configure(state=NORMAL)
 
     def add_minutes(self):
         self.minutes += 1
         self.time_label.configure(text="{}:{}".format(self.minutes, self.seconds))
+        self.start_button.configure(state=NORMAL)
 
     def update(self):
-        set_b = [self.start_button, self.set_seconds,
-                 self.set_minutes]
+        set_b = [self.set_seconds, self.set_minutes]
+        self.start_button.configure(state=DISABLED)
         for button in set_b:
             button.configure(state=DISABLED)
 
@@ -65,6 +68,8 @@ class time_GUI:
 
 if __name__ == "__main__":
     root = Tk()
+    photo = PhotoImage(file='iconchip.png')
+    root.iconphoto(False, photo)
     gui = time_GUI(root)
     root.geometry("300x300")
     root.title('Hello')
