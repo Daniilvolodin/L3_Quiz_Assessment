@@ -66,8 +66,10 @@ def regex_check(value):
     else:
         return value.configure(bg='#eb5959')
 
+already_answered = []
 
-class rectangle:
+
+class Rectangle:
     def __init__(self, parameter):
         self.parameter = parameter
         # Recycled variables from the previous component
@@ -79,7 +81,7 @@ class rectangle:
                                          check_operator(x=(int(self.ran1) * int(self.ran2))))
         # Text variable that is used within quadratic entry
         self.string_set = StringVar()
-
+        already_answered.append(self.question)
         # Frame containing all the contents
         self.frame_one = Frame()
         self.frame_one.grid(padx=30, pady=30)
@@ -134,6 +136,17 @@ class rectangle:
         self.warning_message = Label(self.frame_one, text="", fg='red')
         self.warning_message.grid(row=4, sticky=NSEW, pady=(10, 0))
 
+        # Compares the number of items in a list with
+        # a set type that removes duplicates with ordinary list
+        # if those lists don't match, the program will cycle
+        # through questions that are not in the list, and removing
+        # the dupe question
+        while len(set(already_answered)) != len(already_answered):
+            print("Dupe")
+            already_answered.remove(already_answered[-1])
+            self.frame_one.destroy()
+            Rectangle(self)
+
     def on_submit(self):
         # List containing width / height input
         attempted = [self.width_entry.get(), self.height_entry.get()]
@@ -185,14 +198,18 @@ class rectangle:
             # If user gets height and width input
             # correct, program prints "Correct"
             if attempt == correct:
-                print("Correct")
+                print("Height / Width: Correct")
+            else:
+                print("Height / Width: Incorrect")
             # Same for simplified quadratic input
             if self.simplified.get() in correct_answer:
-                print("Correctness")
+                print("Simplified expression: Correct")
+            else:
+                print("Simplified expression: Incorrect")
 
             # Refreshes question about rectangle
             self.frame_one.destroy()
-            rectangle(self)
+            Rectangle(self)
 
     # Checks if user quadratic meets criteria
     # of valid input
@@ -201,10 +218,10 @@ class rectangle:
 
     # Launches a help window
     def on_help(self):
-        helpWin(self)
+        HelpWin(self)
 
 
-class helpWin:
+class HelpWin:
     def __init__(self, parameter):
         parameter.help_button.config(state=DISABLED)
         # New Window (Help window)
@@ -229,7 +246,7 @@ class helpWin:
                               font="Arial 10 bold")
         self.contents.grid(row=1)
 
-        self.instructions = Label(self.index_frame, text="Enter your input in a form of "
+        self.instructions = Label(self.index_frame, text="Enter your answer in a form of "
                                                          "simplified quadratic equation\n\n"
                                                          "When using exemplars, change "
                                                          "hash tags to a number for "
@@ -258,7 +275,7 @@ class helpWin:
         if parameter.string_set.get() == "(x+#)(x+#)":
             self.form_quad.configure(state=DISABLED)
 
-    # Sets 'simplified' entry to exemplar and
+    # Sets 'simplified' entry to exemplar andR
     # disables form exemplar button
     def form_quad_eq(self, parameter):
         parameter.string_set.set("(x+#)(x+#)")
@@ -273,7 +290,5 @@ class helpWin:
 
 root = Tk()
 root.title("Rectangle Questions")
-app = rectangle(root)
+app = Rectangle(root)
 root.mainloop()
-
-
