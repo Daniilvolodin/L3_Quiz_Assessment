@@ -228,6 +228,8 @@ class TwoPointQ:
         self.parameter = partial
 
 
+# Help window - Holds information about how to approach
+# A two point question.
 class HelpWindow:
     def __init__(self, parameter):
         self.parameter = parameter
@@ -237,6 +239,8 @@ class HelpWindow:
         self.new_window.iconphoto(False, photo2)
         self.new_window.title('Help')
         self.new_window.geometry('340x390')
+
+        # Uses partial library so it can do both function simultaneously
         self.new_window.protocol("WM_DELETE_WINDOW", partial(self.leave, parameter))
 
         self.new_frame = Frame(self.new_window, bg=transparent)
@@ -269,10 +273,12 @@ class HelpWindow:
         if parameter.exemplar_variable.get() == '(x+#)(x+#)':
             self.set_exemplar.configure(state=DISABLED)
 
+    # Adds a simplified quad. exemplar to user entry
     def form_sim_eq(self, parameter):
         parameter.exemplar_variable.set('(x+#)(x+#)')
         self.set_exemplar.configure(state=DISABLED)
 
+    # Closes help window.
     def leave(self, parameter):
         self.new_window.destroy()
         parameter.question.config(state=NORMAL)
